@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"github.com/didi/nightingale/v5/src/server/common"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -147,7 +148,7 @@ func handleNotice(notice Notice, bs []byte) {
 		}
 	}
 
-	phones := StringSetKeys(phoneset)
+	phones := common.StringSetKeys(phoneset)
 
 	for _, ch := range notice.Event.NotifyChannelsJSON {
 		switch ch {
@@ -170,7 +171,7 @@ func handleNotice(notice Notice, bs []byte) {
 				content = "mailbody.tpl not found"
 			}
 
-			sender.WriteEmail(subject, content, StringSetKeys(emailset))
+			sender.WriteEmail(subject, content, common.StringSetKeys(emailset))
 		case "dingtalk":
 			if len(dingtalkset) == 0 {
 				continue
@@ -189,7 +190,7 @@ func handleNotice(notice Notice, bs []byte) {
 				Title:     notice.Event.RuleName,
 				Text:      content,
 				AtMobiles: phones,
-				Tokens:    StringSetKeys(dingtalkset),
+				Tokens:    common.StringSetKeys(dingtalkset),
 			})
 		case "wecom":
 			if len(wecomset) == 0 {
@@ -206,7 +207,7 @@ func handleNotice(notice Notice, bs []byte) {
 			}
 			sender.SendWecom(sender.WecomMessage{
 				Text:   content,
-				Tokens: StringSetKeys(wecomset),
+				Tokens: common.StringSetKeys(wecomset),
 			})
 		case "feishu":
 			if len(feishuset) == 0 {
@@ -224,7 +225,7 @@ func handleNotice(notice Notice, bs []byte) {
 			sender.SendFeishu(sender.FeishuMessage{
 				Text:      content,
 				AtMobiles: phones,
-				Tokens:    StringSetKeys(feishuset),
+				Tokens:    common.StringSetKeys(feishuset),
 			})
 		}
 	}

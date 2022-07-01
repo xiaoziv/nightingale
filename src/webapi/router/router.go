@@ -286,6 +286,12 @@ func configRoute(r *gin.Engine, version string) {
 		service.POST("/alert-mutes", alertMuteAddByService)
 		service.DELETE("/alert-mutes", alertMuteDel)
 
+		service.POST("/record-rules", recordRuleAddByService)
+		service.DELETE("/record-rules", recordRuleDelByService)
+		service.PUT("/record-rule/:rrid", recordRulePutByService)
+		service.GET("/record-rules/:rrid", recordRuleGet)
+		service.GET("/record-rules", recordRulesGetByService)
+
 		pages.GET("/alert-cur-events", alertCurEventsList)
 		pages.GET("/alert-his-events", alertHisEventsList)
 	}

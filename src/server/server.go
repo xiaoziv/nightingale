@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"github.com/didi/nightingale/v5/src/server/record"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -137,6 +138,11 @@ func (s Server) initialize() (func(), error) {
 
 	// start judge engine
 	if err = engine.Start(ctx); err != nil {
+		return fns.Ret(), err
+	}
+
+	// start record rule engine
+	if err = record.Start(ctx); err != nil {
 		return fns.Ret(), err
 	}
 

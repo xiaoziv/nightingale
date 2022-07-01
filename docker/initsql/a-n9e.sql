@@ -257,6 +257,25 @@ CREATE TABLE `alert_rule` (
     KEY (`update_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET = utf8mb4;
 
+CREATE TABLE `record_rule` (
+    `id` bigint unsigned not null auto_increment,
+    `group_id` bigint not null default 0 comment 'busi group id',
+    `cluster` varchar(128) not null,
+    `note` varchar(1024) not null default '',
+    `metric` varchar(255) not null,
+    `prom_ql` text not null comment 'promql',
+    `prom_eval_interval` int not null comment 'evaluate interval',
+    `disabled` tinyint(1) not null comment '0:enabled 1:disabled',
+    `append_tags` varchar(255) not null default '' comment 'split by space: service=n9e mod=api',
+    `create_at` bigint not null default 0,
+    `create_by` varchar(64) not null default '',
+    `update_at` bigint not null default 0,
+    `update_by` varchar(64) not null default '',
+    PRIMARY KEY (`id`),
+    KEY (`group_id`),
+    KEY (`update_at`)
+) ENGINE=InnoDB DEFAULT CHARSET = utf8mb4;
+
 CREATE TABLE `alert_mute` (
     `id` bigint unsigned not null auto_increment,
     `group_id` bigint not null default 0 comment 'busi group id',

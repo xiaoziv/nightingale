@@ -1,4 +1,4 @@
-package engine
+package common
 
 import (
 	"time"
@@ -11,7 +11,7 @@ import (
 )
 
 // notify to maintainer to handle the error
-func notifyToMaintainer(e error, title string) {
+func NotifyToMaintainer(e error, title string) {
 
 	logger.Errorf("notifyToMaintainer，title:%s, error:%v", title, e)
 
