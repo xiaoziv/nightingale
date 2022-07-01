@@ -3,7 +3,6 @@ package server
 import (
 	"context"
 	"fmt"
-	"github.com/didi/nightingale/v5/src/server/record"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -19,6 +18,7 @@ import (
 	"github.com/didi/nightingale/v5/src/server/memsto"
 	"github.com/didi/nightingale/v5/src/server/naming"
 	"github.com/didi/nightingale/v5/src/server/reader"
+	"github.com/didi/nightingale/v5/src/server/record"
 	"github.com/didi/nightingale/v5/src/server/router"
 	"github.com/didi/nightingale/v5/src/server/stat"
 	"github.com/didi/nightingale/v5/src/server/usage"

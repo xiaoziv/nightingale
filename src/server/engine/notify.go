@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"github.com/didi/nightingale/v5/src/server/common"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -15,6 +14,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/didi/nightingale/v5/src/server/common"
 	"github.com/pkg/errors"
 	"github.com/tidwall/gjson"
 	"github.com/toolkits/pkg/file"
