@@ -3,6 +3,7 @@ package common
 import (
 	"time"
 
+	"github.com/didi/nightingale/v5/src/pkg/strx"
 	"github.com/didi/nightingale/v5/src/server/common/sender"
 	"github.com/didi/nightingale/v5/src/server/config"
 	"github.com/didi/nightingale/v5/src/server/memsto"
@@ -61,7 +62,7 @@ func NotifyToMaintainer(e error, title string) {
 		}
 	}
 
-	phones := StringSetKeys(phoneset)
+	phones := strx.StringSetKeys(phoneset)
 	triggerTime := time.Now().Format("2006/01/02 - 15:04:05")
 
 	for _, ch := range config.C.Alerting.NotifyBuiltinChannels {
@@ -71,7 +72,7 @@ func NotifyToMaintainer(e error, title string) {
 				continue
 			}
 			content := "【内部处理错误】当前标题: " + title + "\n【内部处理错误】当前异常: " + e.Error() + "\n【内部处理错误】发送时间: " + triggerTime
-			sender.WriteEmail(title, content, StringSetKeys(emailset))
+			sender.WriteEmail(title, content, strx.StringSetKeys(emailset))
 		case "dingtalk":
 			if len(dingtalkset) == 0 {
 				continue
@@ -81,7 +82,7 @@ func NotifyToMaintainer(e error, title string) {
 				Title:     title,
 				Text:      content,
 				AtMobiles: phones,
-				Tokens:    StringSetKeys(dingtalkset),
+				Tokens:    strx.StringSetKeys(dingtalkset),
 			})
 		case "wecom":
 			if len(wecomset) == 0 {
@@ -90,7 +91,7 @@ func NotifyToMaintainer(e error, title string) {
 			content := "**【内部处理错误】当前标题: **" + title + "\n**【内部处理错误】当前异常: **" + e.Error() + "\n**【内部处理错误】发送时间: **" + triggerTime
 			sender.SendWecom(sender.WecomMessage{
 				Text:   content,
-				Tokens: StringSetKeys(wecomset),
+				Tokens: strx.StringSetKeys(wecomset),
 			})
 		case "feishu":
 			if len(feishuset) == 0 {
@@ -101,7 +102,7 @@ func NotifyToMaintainer(e error, title string) {
 			sender.SendFeishu(sender.FeishuMessage{
 				Text:      content,
 				AtMobiles: phones,
-				Tokens:    StringSetKeys(feishuset),
+				Tokens:    strx.StringSetKeys(feishuset),
 			})
 		}
 	}

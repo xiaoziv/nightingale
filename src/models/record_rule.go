@@ -2,10 +2,11 @@ package models
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
-	"github.com/toolkits/pkg/str"
 	"strings"
 	"time"
+
+	"github.com/pkg/errors"
+	"github.com/prometheus/common/model"
 )
 
 type RecordRule struct {
@@ -38,19 +39,19 @@ func (rr *RecordRule) Verify() error {
 		return errors.New("Cluster is blank")
 	}
 
-	if str.Dangerous(rr.Metric) {
-		return errors.New("Metric has invalid characters")
-	}
-
 	if rr.Metric == "" {
 		return errors.New("Metric is blank")
+	}
+
+	if !model.MetricNameRE.MatchString(rr.Metric) {
+		return errors.New("Metric has invalid characters")
 	}
 
 	if rr.PromQl == "" {
 		return errors.New("PromQl is blank")
 	}
 
-	if rr.PromEvalInterval <= 15 {
+	if rr.PromEvalInterval <= 0 {
 		rr.PromEvalInterval = 15
 	}
 
@@ -186,7 +187,7 @@ func RecordRulesGetsBy(query string) ([]RecordRule, error) {
 func RecordRuleGet(where string, args ...interface{}) (*RecordRule, error) {
 	var lst []*RecordRule
 	err := DB().Where(where, args...).Find(&lst).Error
-	if err == nil {
+	if err != nil {
 		return nil, err
 	}
 

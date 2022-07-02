@@ -1,4 +1,4 @@
-package common
+package strx
 
 func StringSetKeys(m map[string]struct{}) []string {
 	lst := make([]string, 0, len(m))

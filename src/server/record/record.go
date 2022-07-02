@@ -5,6 +5,8 @@ import (
 	"time"
 
 	"github.com/didi/nightingale/v5/src/server/memsto"
+	"github.com/didi/nightingale/v5/src/server/naming"
+	"github.com/toolkits/pkg/logger"
 )
 
 func Start(ctx context.Context) error {
@@ -16,7 +18,17 @@ func Start(ctx context.Context) error {
 			case <-ctx.Done():
 				return
 			case <-time.After(duration):
-				Workers.Build(memsto.RecordRuleCache.GetRuleIds())
+				// only leader can evaluate record rules
+				isLeader, err := naming.IamLeader()
+				if err != nil {
+					logger.Errorf("record rule, failed to get leader: %v", err)
+					continue
+				}
+				if isLeader {
+					Workers.Build(memsto.RecordRuleCache.GetRuleIds())
+				} else {
+					logger.Debugf("record rule, not leader, skip evaluate")
+				}
 			}
 		}
 	}()

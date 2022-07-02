@@ -3,7 +3,6 @@ package engine
 import (
 	"context"
 	"fmt"
-	"github.com/didi/nightingale/v5/src/server/common"
 	"math/rand"
 	"sort"
 	"strings"
@@ -15,6 +14,7 @@ import (
 	"github.com/toolkits/pkg/str"
 
 	"github.com/didi/nightingale/v5/src/models"
+	"github.com/didi/nightingale/v5/src/server/common"
 	"github.com/didi/nightingale/v5/src/server/common/conv"
 	"github.com/didi/nightingale/v5/src/server/config"
 	"github.com/didi/nightingale/v5/src/server/memsto"
